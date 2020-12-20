@@ -9,7 +9,7 @@ const width = +svg.attr("width");
 const render = (data) => {
   const xValue = (d) => d.population;
   const yValue = (d) => d.country;
-  const margin = { top: 50, right: 20, bottom: 30, left: 200 };
+  const margin = { top: 50, right: 20, bottom: 70, left: 200 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
@@ -39,12 +39,20 @@ const render = (data) => {
     .remove();
 
   // bottom axis
-  g.append("g")
+  const xAxisG = g
+    .append("g")
     .call(xAxis)
-    .attr("transform", `translate(0, ${innerHeight})`)
-    .select(".domain")
-    .remove();
+    .attr("transform", `translate(0, ${innerHeight})`);
+
+  xAxisG.select(".domain").remove();
   // yAxis(g.append("g"));
+
+  xAxisG
+    .append("text")
+    .attr("x", innerWidth / 2)
+    .attr("y", 65)
+    .text("Population")
+    .attr("fill", "black");
 
   g.selectAll("rect")
     .data(data)
