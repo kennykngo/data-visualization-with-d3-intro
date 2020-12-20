@@ -1,6 +1,3 @@
-// import { select, arc } from "d3";
-// import arc from "d3";
-
 const svg = d3.select("svg");
 
 // append method will append new DOM elements
@@ -32,9 +29,11 @@ const render = (data) => {
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   g.append("g").call(d3.axisLeft(yScale));
-  g.append("g")
-    .call(d3.axisBottom(xScale))
-    .attr("transform", `translate(0, ${innerHeight})`);
+
+  const xAxis = d3.axisBottom(xScale).tickFormat(d3.format(".3s"));
+
+  // bottom axis
+  g.append("g").call(xAxis).attr("transform", `translate(0, ${innerHeight})`);
   // yAxis(g.append("g"));
 
   g.selectAll("rect")
