@@ -40,22 +40,29 @@ const rightEye = eyesG
   .attr("r", eyeRadius)
   .attr("cx", eyeSpacing);
 
-const leftEyebrow = eyesG
+const eyebrowsG = eyesG
+  .append("g")
+  .attr("transform", `translate(0, ${eyeYOffset})`);
+
+eyebrowsG
+  .transition()
+  .duration(2000)
+  .attr("transform", `translate(0, ${eyeYOffset - 50} )`)
+  .transition()
+  .duration(2000)
+  .attr("transform", `translate(0, ${eyeYOffset})`);
+
+const leftEyebrow = eyebrowsG
   .append("rect")
   .attr("x", -eyeSpacing - eyebrowWidth / 2)
-  .attr("y", eyebrowYOffset)
   .attr("width", eyebrowWidth)
   .attr("height", eyebrowHeight);
 
-const rightEyebrow = eyesG
+const rightEyebrow = eyebrowsG
   .append("rect")
   .attr("x", eyeSpacing - eyebrowWidth / 2)
-  .attr("y", eyebrowYOffset)
   .attr("width", eyebrowWidth)
-  .attr("height", eyebrowHeight)
-  .transition()
-  .duration(2000)
-  .attr("y", eyebrowYOffset - 30);
+  .attr("height", eyebrowHeight);
 
 const mouth = g.append("path").attr(
   "d",
