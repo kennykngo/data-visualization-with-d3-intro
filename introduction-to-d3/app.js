@@ -52,7 +52,10 @@ const rightEyebrow = eyesG
   .attr("x", eyeSpacing - eyebrowWidth / 2)
   .attr("y", eyebrowYOffset)
   .attr("width", eyebrowWidth)
-  .attr("height", eyebrowHeight);
+  .attr("height", eyebrowHeight)
+  .transition()
+  .duration(2000)
+  .attr("y", eyebrowYOffset - 30);
 
 const mouth = g.append("path").attr(
   "d",
