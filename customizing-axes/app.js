@@ -33,7 +33,10 @@ const render = (data) => {
 
   const xAxis = d3.axisBottom(xScale).tickFormat(xAxisTickFormat);
 
-  g.append("g").call(d3.axisLeft(yScale));
+  g.append("g")
+    .call(d3.axisLeft(yScale))
+    .selectAll(".domain, .tick line")
+    .remove();
 
   // bottom axis
   g.append("g").call(xAxis).attr("transform", `translate(0, ${innerHeight})`);
