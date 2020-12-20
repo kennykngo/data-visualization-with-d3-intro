@@ -39,7 +39,11 @@ const render = (data) => {
     .remove();
 
   // bottom axis
-  g.append("g").call(xAxis).attr("transform", `translate(0, ${innerHeight})`);
+  g.append("g")
+    .call(xAxis)
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .select(".domain")
+    .remove();
   // yAxis(g.append("g"));
 
   g.selectAll("rect")
