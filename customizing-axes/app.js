@@ -31,7 +31,10 @@ const render = (data) => {
   const xAxisTickFormat = (number) =>
     d3.format(".3s")(number).replace("G", "B");
 
-  const xAxis = d3.axisBottom(xScale).tickFormat(xAxisTickFormat);
+  const xAxis = d3
+    .axisBottom(xScale)
+    .tickFormat(xAxisTickFormat)
+    .tickSize(-innerHeight);
 
   g.append("g")
     .call(d3.axisLeft(yScale))
@@ -49,6 +52,7 @@ const render = (data) => {
 
   xAxisG
     .append("text")
+    .attr("class", "axis-label")
     .attr("x", innerWidth / 2)
     .attr("y", 65)
     .text("Population")
@@ -62,7 +66,10 @@ const render = (data) => {
     // .attr("width", (d) => xScale(d.population))
     .attr("height", yScale.bandwidth());
 
-  g.append("text").attr("y", -10).text("Top 10 Most Populous Countries");
+  g.append("text")
+    .attr("y", -10)
+    .text("Top 10 Most Populous Countries")
+    .attr("class", "title");
 };
 
 d3.csv("data.csv").then((data) => {
