@@ -15,6 +15,7 @@ console.log(typeof width);
 
 console.log(svg.attr("width"));
 
-circle.attr("r", height / 2);
-circle.attr("cx", width / 2);
-circle.attr("cy", height / 2);
+circle
+  .attr("r", height / 2)
+  .attr("cx", width / 2)
+  .attr("cy", height / 2);
