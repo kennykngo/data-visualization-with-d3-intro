@@ -8,9 +8,13 @@ svg.style("background-color", "red");
 // will append the element into the svg element
 const circle = svg.append("circle");
 
-const height = svg.height;
-const width = 960;
+const height = +svg.attr("height");
+const width = +svg.attr("width");
+
+console.log(typeof width);
+
+console.log(svg.attr("width"));
 
 circle.attr("r", height / 2);
-circle.attr("cx", 960 / 2);
+circle.attr("cx", width / 2);
 circle.attr("cy", height / 2);
