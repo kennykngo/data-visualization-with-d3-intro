@@ -9,7 +9,7 @@ const width = +svg.attr("width");
 const render = (data) => {
   const xValue = (d) => d.population;
   const yValue = (d) => d.country;
-  const margin = { top: 20, right: 20, bottom: 30, left: 200 };
+  const margin = { top: 50, right: 20, bottom: 30, left: 200 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
@@ -50,10 +50,11 @@ const render = (data) => {
     .data(data)
     .join("rect")
     .attr("y", (d) => yScale(yValue(d)))
-    // .append("rect")
     .attr("width", (d) => xScale(xValue(d)))
     // .attr("width", (d) => xScale(d.population))
     .attr("height", yScale.bandwidth());
+
+  g.append("text").attr("y", -10).text("Top 10 Most Populous Countries");
 };
 
 d3.csv("data.csv").then((data) => {
