@@ -17,18 +17,17 @@ export const fruitsBowl = (selection, props) => {
     .data(fruits);
 
   circles
-    .join(
-      (enter) =>
-        enter
-          .append("circle")
-          .merge(circles)
-          .attr("fill", (d) => colorScale(d.type))
-          .attr("r", (d) => radiusScale(d.type)),
-      (update) => update,
-      (exit) => exit.remove()
-    )
+    .enter()
+    .append("circle")
     .attr("cx", (d, i) => i * 120 + 60)
-    .attr("cy", height / 2);
+    .attr("cy", height / 2)
+    .attr("r", 0)
+    .merge(circles)
+    .attr("fill", (d) => colorScale(d.type))
+    .transition()
+    .duration(1000)
+    .attr("r", (d) => radiusScale(d.type));
+  circles.exit().transition().duration(1000).attr("r", 0).remove();
 };
 
 // module.exports = fruitsBowl;
