@@ -8,7 +8,7 @@ const radiusScale = d3
   .domain(["apple", "lemon"])
   .range([50, 30]);
 
-const xPosition = (d, i) => i * 120 + 60;
+const xPosition = (d, i) => i * 180 + 100;
 
 export const fruitsBowl = (selection, props) => {
   const { fruits, height } = props;
@@ -23,15 +23,21 @@ export const fruitsBowl = (selection, props) => {
     .append("circle")
     .attr("cx", xPosition)
     .attr("cy", height / 2)
-    .attr("r", 0)
     .merge(circles)
-    .attr("fill", (d) => colorScale(d.type))
-    .transition()
-    .duration(1000)
-    .attr("cx", xPosition)
-    .attr("r", (d) => radiusScale(d.type));
+    .attr("r", (d) => radiusScale(d.type))
+    .attr("fill", (d) => colorScale(d.type));
+  circles.exit().remove();
 
-  circles.exit().transition().duration(1000).attr("r", 0).remove();
+  const text = selection.selectAll("text").data(fruits, (d) => d.id);
+
+  text
+    .enter()
+    .append("text")
+    .attr("x", xPosition)
+    .attr("y", height / 2)
+    .merge(text)
+    .text((d) => d.type);
+  text.exit().remove();
 };
 
 // module.exports = fruitsBowl;
