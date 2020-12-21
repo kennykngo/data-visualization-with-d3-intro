@@ -1,13 +1,9 @@
-// import { select, arc } from "d3";
-// import arc from "d3";
-// import { fruitsBowl } from "./fruitBowl"
-
-// const fruitsBowl = require("./fruitBowl");
+// import { range, select } from "d3"
 import { fruitsBowl } from "./fruitBowl.js";
 
 const svg = d3.select("svg");
 
-const makeFruit = (type) => ({ type });
+const makeFruit = (type) => ({ type, id: Math.random() });
 let fruits = d3.range(5).map(() => makeFruit("apple"));
 
 const render = () => {
