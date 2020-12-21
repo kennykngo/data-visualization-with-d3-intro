@@ -29,3 +29,10 @@ text {
   font-size: 2.5em;
   fill: #635f5d;
 }
+
+.line-path {
+  fill: none;
+  stroke: maroon;
+  stroke-width: 5;
+  stroke-linejoin: round;
+}

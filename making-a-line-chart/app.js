@@ -8,12 +8,12 @@ const width = +svg.attr("width");
 
 const render = (data) => {
   const xValue = (d) => d.timestamp;
-  const xAxisLabel = "Horsepower";
+  const xAxisLabel = "Time";
 
   const yValue = (d) => d.temperature;
-  const yAxisLabel = "Weight";
+  const yAxisLabel = "Temperature";
 
-  const title = "Cars: Horsepower vs Weight";
+  const title = "A week in San Francisco";
   const circleRadius = 6;
   const margin = { top: 60, right: 40, bottom: 88, left: 150 };
   const innerWidth = width - margin.left - margin.right;
@@ -81,13 +81,18 @@ const render = (data) => {
     .text(xAxisLabel)
     .attr("fill", "black");
 
-  g.selectAll("circle")
-    .data(data)
-    .join("circle")
-    .attr("cy", (d) => yScale(yValue(d)))
-    .attr("cx", (d) => xScale(xValue(d)))
-    // .attr("width", (d) => xScale(d.population))
-    .attr("r", circleRadius);
+  const lineGenerator = d3
+    .line()
+    .x((d) => xScale(xValue(d)))
+    .y((d) => yScale(yValue(d)));
+
+  console.log(lineGenerator(data));
+
+  // chart maker
+  g.append("path")
+    .attr("class", "line-path")
+    .attr("d", lineGenerator(data))
+    .attr("stroke", "black");
 
   g.append("text").attr("y", -10).text(title).attr("class", "title");
 };
