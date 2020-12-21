@@ -19,10 +19,10 @@ const render = (data) => {
     .range([0, innerWidth]);
 
   const yScale = d3
-    .scaleBand()
+    .scalePoint()
     .domain(data.map(yValue))
     .range([0, innerHeight])
-    .padding(0.1);
+    .padding(0.5);
 
   const g = svg
     .append("g")
@@ -64,7 +64,7 @@ const render = (data) => {
     .attr("cy", (d) => yScale(yValue(d)))
     .attr("cx", (d) => xScale(xValue(d)))
     // .attr("width", (d) => xScale(d.population))
-    .attr("r", yScale.bandwidth() / 2);
+    .attr("r", 18);
 
   g.append("text")
     .attr("y", -10)
