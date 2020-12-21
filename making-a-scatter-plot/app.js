@@ -9,14 +9,15 @@ const width = +svg.attr("width");
 const render = (data) => {
   const xValue = (d) => d.population;
   const yValue = (d) => d.country;
-  const margin = { top: 50, right: 20, bottom: 70, left: 200 };
+  const margin = { top: 50, right: 40, bottom: 77, left: 200 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
   const xScale = d3
     .scaleLinear()
     .domain([0, d3.max(data, xValue)])
-    .range([0, innerWidth]);
+    .range([0, innerWidth])
+    .nice();
 
   const yScale = d3
     .scalePoint()
@@ -36,10 +37,9 @@ const render = (data) => {
     .tickFormat(xAxisTickFormat)
     .tickSize(-innerHeight);
 
-  g.append("g")
-    .call(d3.axisLeft(yScale))
-    .selectAll(".domain, .tick line")
-    .remove();
+  const yAxis = d3.axisLeft(yScale).tickSize(-innerWidth);
+
+  g.append("g").call(yAxis).selectAll(".domain").remove();
 
   // bottom axis
   const xAxisG = g
