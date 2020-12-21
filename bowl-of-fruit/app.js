@@ -28,17 +28,19 @@ const render = (selection, { fruits }) => {
 
   circles
     .join(
-      (enter) => enter.append("circle"),
-      (update) =>
-        update
+      (enter) =>
+        enter
+          .append("circle")
+          .merge(circles)
           .attr("fill", (d) => colorScale(d.type))
           .attr("r", (d) => radiusScale(d.type)),
+      (update) => update,
       (exit) => exit.remove()
     )
     .attr("cx", (d, i) => i * 120 + 60)
-    .attr("cy", height / 2)
-    .attr("fill", (d) => colorScale(d.type))
-    .attr("r", (d) => radiusScale(d.type));
+    .attr("cy", height / 2);
+  // .attr("fill", (d) => colorScale(d.type))
+  // .attr("r", (d) => radiusScale(d.type));
 
   // circles.data(fruits).exit().remove();
 };
