@@ -7,13 +7,13 @@ const height = +svg.attr("height");
 const width = +svg.attr("width");
 
 const render = (data) => {
-  const xValue = (d) => d.timestamp;
+  const xValue = (d) => d.year;
   const xAxisLabel = "Time";
 
-  const yValue = (d) => d.temperature;
-  const yAxisLabel = "Temperature";
+  const yValue = (d) => d.population;
+  const yAxisLabel = "Population";
 
-  const title = "A week in San Francisco";
+  const title = "World Population";
   const circleRadius = 6;
   const margin = { top: 60, right: 40, bottom: 88, left: 150 };
   const innerWidth = width - margin.left - margin.right;
@@ -23,12 +23,12 @@ const render = (data) => {
     .scaleTime()
     // extent returns an array of max and min
     .domain(d3.extent(data, xValue))
-    .range([0, innerWidth])
-    .nice();
+    .range([0, innerWidth]);
+  // .nice();
 
   const yScale = d3
     .scaleLinear()
-    .domain(d3.extent(data, yValue))
+    .domain([0, d3.max(data, yValue)])
     .range([innerHeight, 0])
     .nice();
 
@@ -36,20 +36,22 @@ const render = (data) => {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  // const xAxisTickFormat = (number) =>
-  //   d3.format(".3s")(number).replace("G", "B");
+  const yAxisTickFormat = (number) =>
+    d3.format(".1s")(number).replace("G", "B");
 
   const xAxis = d3
     .axisBottom(xScale)
-    // .tickFormat(xAxisTickFormat)
+    .ticks(6)
     .tickSize(-innerHeight)
     .tickPadding(15);
 
   const yAxis = d3
     .axisLeft(yScale)
     .tickSize(-innerWidth)
-    .tickPadding(10)
-    .tickFormat(d3.format(".2s"));
+    .tickFormat(yAxisTickFormat)
+    .tickPadding(10);
+  // .tickFormat(d3.format(".2s"));
+
   const yAxisG = g.append("g").call(yAxis);
 
   yAxisG.selectAll(".domain").remove();
@@ -81,6 +83,8 @@ const render = (data) => {
     .text(xAxisLabel)
     .attr("fill", "black");
 
+  // chart maker
+
   const areaGenerator = d3
     .area()
     .x((d) => xScale(xValue(d)))
@@ -88,23 +92,25 @@ const render = (data) => {
     .y1((d) => yScale(yValue(d)))
     .curve(d3.curveBasis);
 
-  console.log(areaGenerator(data));
-
-  // chart maker
   g.append("path")
     .attr("class", "line-path")
     .attr("d", areaGenerator(data))
     .attr("stroke", "black");
 
-  g.append("text").attr("y", -10).text(title).attr("class", "title");
+  svg
+    .append("text")
+    .attr("y", 45)
+    .attr("x", width / 2)
+    .text(title)
+    .attr("class", "title");
 };
 
 d3.csv(
-  "https://vizhub.com/curran/datasets/temperature-in-san-francisco.csv"
+  "https://vizhub.com/curran/datasets/world-population-by-year-2015.csv"
 ).then((data) => {
   data.forEach((d) => {
-    d.temperature = +d.temperature;
-    d.timestamp = new Date(d.timestamp);
+    d.population = +d.population;
+    d.year = new Date(d.year);
   });
 
   // console.log(data);
