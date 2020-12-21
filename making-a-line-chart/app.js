@@ -84,7 +84,8 @@ const render = (data) => {
   const lineGenerator = d3
     .line()
     .x((d) => xScale(xValue(d)))
-    .y((d) => yScale(yValue(d)));
+    .y((d) => yScale(yValue(d)))
+    .curve(d3.curveBasis);
 
   console.log(lineGenerator(data));
 
