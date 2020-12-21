@@ -9,6 +9,16 @@ const svg = d3.select("svg");
 const height = +svg.attr("height");
 const width = +svg.attr("width");
 
+const colorScale = d3
+  .scaleOrdinal()
+  .domain(["apple", "lemon"])
+  .range(["#c11d1d", "#eae600"]);
+
+const radiusScale = d3
+  .scaleOrdinal()
+  .domain(["apple", "lemon"])
+  .range([50, 30]);
+
 const render = (selection, { fruits }) => {
   const circles = selection
     // .selectAll("circle") is an empty selection
@@ -17,13 +27,20 @@ const render = (selection, { fruits }) => {
     .data(fruits);
 
   circles
-    .join("circle")
+    .join(
+      (enter) => enter.append("circle"),
+      (update) =>
+        update
+          .attr("fill", (d) => colorScale(d.type))
+          .attr("r", (d) => radiusScale(d.type)),
+      (exit) => exit.remove()
+    )
     .attr("cx", (d, i) => i * 120 + 60)
     .attr("cy", height / 2)
-    .attr("fill", "#c11d1d")
-    .attr("r", 50);
+    .attr("fill", (d) => colorScale(d.type))
+    .attr("r", (d) => radiusScale(d.type));
 
-  circles.data(fruits).exit().remove();
+  // circles.data(fruits).exit().remove();
 };
 
 const makeFruit = (type) => ({ type });
@@ -38,3 +55,10 @@ setTimeout(() => {
 
   render(svg, { fruits });
 }, 1000);
+
+// replacing an apple with a lemon
+setTimeout(() => {
+  fruits[2].type = "lemon";
+
+  render(svg, { fruits });
+}, 2000);
