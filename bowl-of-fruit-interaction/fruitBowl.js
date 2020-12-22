@@ -22,6 +22,7 @@ export const fruitsBowl = (selection, props) => {
     .attr("r", 0)
     .merge(circles)
     .attr("fill", (d) => colorScale(d.type))
+    .attr("stroke-width", 5)
     .attr("stroke", (d) => (d.id === selectedFruit ? "black" : "none"))
     .on("click", (o, d) => onClick(d.id))
     .transition()
