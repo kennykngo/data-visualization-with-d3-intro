@@ -13,6 +13,16 @@ const xPosition = (d, i) => i * 180 + 100;
 export const fruitsBowl = (selection, props) => {
   const { fruits, height } = props;
 
+  const bowl = selection
+    .selectAll("rect")
+    .data([null])
+    .enter()
+    .append("rect")
+    .attr("y", 100)
+    .attr("width", 920)
+    .attr("height", 300)
+    .attr("rx", 300 / 2);
+
   const groups = selection.selectAll("g").data(fruits, (d) => d.id);
 
   const groupsEnter = groups.enter().append("g");
@@ -29,16 +39,9 @@ export const fruitsBowl = (selection, props) => {
     .attr("r", (d) => radiusScale(d.type))
     .attr("fill", (d) => colorScale(d.type));
 
-  const text = selection.selectAll("text").data(fruits, (d) => d.id);
-
-  text
-    .enter()
+  groupsEnter
     .append("text")
-    .attr("x", xPosition)
-    .attr("y", height / 2 + 120)
-    .merge(text)
+    .merge(groups.select("text"))
+    .attr("y", 120)
     .text((d) => d.type);
-  text.exit().remove();
 };
-
-// module.exports = fruitsBowl;

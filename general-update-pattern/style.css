@@ -7,3 +7,7 @@ text {
   font-family: sans-serif;
   text-anchor: middle;
 }
+
+rect {
+  fill: #f2f0e8;
+}
