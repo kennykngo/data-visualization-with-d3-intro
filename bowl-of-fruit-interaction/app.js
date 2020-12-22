@@ -6,8 +6,16 @@ const svg = d3.select("svg");
 const makeFruit = (type) => ({ type, id: Math.random() });
 let fruits = d3.range(5).map(() => makeFruit("apple"));
 
+let selectedFruit = null;
+
+const onClick = (id) => {
+  selectedFruit = id;
+  console.log(id);
+  render();
+};
+
 const render = () => {
-  fruitsBowl(svg, { fruits, height: +svg.attr("height") });
+  fruitsBowl(svg, { fruits, height: +svg.attr("height"), onClick });
 };
 
 render();
