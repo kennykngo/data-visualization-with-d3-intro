@@ -1,3 +1,9 @@
 html body {
   margin: 0;
 }
+
+text {
+  font-size: 3rem;
+  font-family: sans-serif;
+  text-anchor: middle;
+}

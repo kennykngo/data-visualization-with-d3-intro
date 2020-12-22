@@ -12,21 +12,22 @@ const xPosition = (d, i) => i * 180 + 100;
 
 export const fruitsBowl = (selection, props) => {
   const { fruits, height } = props;
-  const circles = selection
-    // .selectAll("circle") is an empty selection
-    .selectAll("circle")
-    // .data(ARRAY) sets up data section of data join
-    .data(fruits, (d) => d.id);
 
-  circles
-    .enter()
+  const groups = selection.selectAll("g").data(fruits, (d) => d.id);
+
+  const groupsEnter = groups.enter().append("g");
+
+  groupsEnter
+    .merge(groups)
+    .attr("transform", (d, i) => `translate(${i * 180 + 100},${height / 2})`);
+
+  groups.exit().remove();
+
+  groupsEnter
     .append("circle")
-    .attr("cx", xPosition)
-    .attr("cy", height / 2)
-    .merge(circles)
+    .merge(groups.select("circle"))
     .attr("r", (d) => radiusScale(d.type))
     .attr("fill", (d) => colorScale(d.type));
-  circles.exit().remove();
 
   const text = selection.selectAll("text").data(fruits, (d) => d.id);
 
@@ -34,7 +35,7 @@ export const fruitsBowl = (selection, props) => {
     .enter()
     .append("text")
     .attr("x", xPosition)
-    .attr("y", height / 2)
+    .attr("y", height / 2 + 120)
     .merge(text)
     .text((d) => d.type);
   text.exit().remove();
