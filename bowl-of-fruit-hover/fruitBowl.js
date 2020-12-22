@@ -11,7 +11,7 @@ const radiusScale = d3
 const xPosition = (d, i) => i * 120 + 60;
 
 export const fruitsBowl = (selection, props) => {
-  const { fruits, height, onClick, selectedFruit } = props;
+  const { fruits, height, setSelectedFruit, selectedFruit } = props;
   const circles = selection.selectAll("circle").data(fruits, (d) => d.id);
 
   circles
@@ -24,7 +24,8 @@ export const fruitsBowl = (selection, props) => {
     .attr("fill", (d) => colorScale(d.type))
     .attr("stroke-width", 5)
     .attr("stroke", (d) => (d.id === selectedFruit ? "black" : "none"))
-    .on("click", (o, d) => onClick(d.id))
+    .on("mouseover", (o, d) => setSelectedFruit(d.id))
+    .on("mouseout", (o, d) => setSelectedFruit(null))
     .transition()
     .duration(1000)
     .attr("cx", xPosition)
