@@ -9,7 +9,7 @@ html body {
 .country {
   fill: lightgreen;
   stroke: black;
-  stroke-opacity: 0.1;
+  stroke-width: 0.5px;
 }
 
 .country:hover {
