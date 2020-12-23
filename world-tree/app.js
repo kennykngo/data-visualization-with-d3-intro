@@ -21,4 +21,13 @@ d3.json("data.json").then((data) => {
     .enter()
     .append("path")
     .attr("d", linkPathGenerator);
+
+  svg
+    .selectAll("text")
+    .data(root.descendants())
+    .enter()
+    .append("text")
+    .attr("x", (d) => d.y)
+    .attr("y", (d) => d.x)
+    .text((d) => d.data.data.id);
 });
