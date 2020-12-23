@@ -29,5 +29,6 @@ d3.json("data.json").then((data) => {
     .append("text")
     .attr("x", (d) => d.y)
     .attr("y", (d) => d.x)
+    .attr("dy", "0.32em")
     .text((d) => d.data.data.id);
 });
