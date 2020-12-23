@@ -11,22 +11,46 @@ const projection = d3.geoNaturalEarth1();
 const pathGenerator = d3.geoPath().projection(projection);
 
 // globe path
-svg
-  .append("path")
-  .attr("d", pathGenerator({ type: "Sphere" }))
-  .attr("class", "sphere");
+const g = svg.append("g");
 
-d3.json("https://unpkg.com/world-atlas@1.1.4/world/110m.json").then((data) => {
-  const countries = topojson.feature(data, data.objects.countries);
+g.append("path")
+  .attr("class", "sphere")
+  .attr("d", pathGenerator({ type: "Sphere" }));
+
+svg.call(
+  d3.zoom().on("zoom", (event) => {
+    g.attr("transform", event.transform);
+  })
+);
+
+// Waits for ALL of the promises to resolve (an array) then destructures the promise
+Promise.all([
+  d3.tsv("https://unpkg.com/world-atlas@1.1.4/world/110m.tsv"),
+  d3.json("https://unpkg.com/world-atlas@1.1.4/world/110m.json"),
+]).then(([tsvData, topoJSONdata]) => {
+  const countryName = tsvData.reduce((acc, d) => {
+    acc[d.iso_n3] = d.name;
+    return acc;
+  }, {});
+  /* const countryName = {};
+    tsvData.forEach((d) => {
+      countryName[d.iso_n3] = d.name;
+    }); */
+
+  const countries = topojson.feature(
+    topoJSONdata,
+    topoJSONdata.objects.countries
+  );
+
   console.log(countries);
-  console.log(data);
 
   // countries path
-  svg
-    .selectAll("path")
+  g.selectAll("path")
     .data(countries.features)
     .enter()
     .append("path")
     .attr("class", "country")
-    .attr("d", (d) => pathGenerator(d));
+    .attr("d", (d) => pathGenerator(d))
+    .append("title")
+    .text((d) => countryName[d.id]);
 });
