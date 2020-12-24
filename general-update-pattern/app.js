@@ -16,4 +16,6 @@ svg
     colorScale,
     height: +svg.attr("height"),
     circleRadius: 30,
+    spacing: 180,
+    textOffset: 120,
   });

@@ -1,5 +1,5 @@
 export const colorLegend = (selection, props) => {
-  const { colorScale, circleRadius } = props;
+  const { colorScale, circleRadius, spacing, textOffset } = props;
 
   const groups = selection.selectAll("g").data(colorScale.domain());
 
@@ -7,7 +7,7 @@ export const colorLegend = (selection, props) => {
 
   groupsEnter
     .merge(groups)
-    .attr("transform", (d, i) => `translate(${i * 180},0)`);
+    .attr("transform", (d, i) => `translate(${i * spacing},0)`);
 
   groups.exit().remove();
 
@@ -20,6 +20,6 @@ export const colorLegend = (selection, props) => {
   groupsEnter
     .append("text")
     .merge(groups.select("text"))
-    .attr("y", 120)
+    .attr("y", textOffset)
     .text((d) => d);
 };
