@@ -2,20 +2,19 @@
 import { colorLegend } from "./colorLegend.js";
 
 const svg = d3.select("svg");
-const height = +svg.attr("height");
 
 const colorScale = d3
   .scaleOrdinal()
-  .domain(["apple", "lemon"])
-  .range(["#c11d1d", "#eae600"]);
+  .domain(["apple", "lemon", "lime", "orange"])
+  .range(["#c11d1d", "#eae600", "green", "orange"]);
 
 svg
   .append("g")
-  .attr("transform", `translate(100, ${height / 2})`)
+  .attr("transform", `translate(100, 100)`)
   .call(colorLegend, {
     colorScale,
     height: +svg.attr("height"),
     circleRadius: 30,
-    spacing: 180,
-    textOffset: 120,
+    spacing: 80,
+    textOffset: 40,
   });
