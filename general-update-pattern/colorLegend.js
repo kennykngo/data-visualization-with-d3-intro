@@ -1,5 +1,5 @@
 export const colorLegend = (selection, props) => {
-  const { colorScale, height, circleRadius } = props;
+  const { colorScale, circleRadius } = props;
 
   const groups = selection.selectAll("g").data(colorScale.domain());
 
@@ -7,7 +7,7 @@ export const colorLegend = (selection, props) => {
 
   groupsEnter
     .merge(groups)
-    .attr("transform", (d, i) => `translate(${i * 180 + 100},${height / 2})`);
+    .attr("transform", (d, i) => `translate(${i * 180},0)`);
 
   groups.exit().remove();
 
