@@ -21,5 +21,7 @@ const sizeScale = d3.scaleSqrt().domain([0, 10]).range([0, 50]);
 svg.append("g").attr("transform", `translate(600, 100)`).call(sizeLegend, {
   sizeScale,
   spacing: 80,
-  textOffset: 40,
+  textOffset: 10,
+  numTicks: 5,
+  circleFill: "rgba(0, 0, 0, 0.5)",
 });
