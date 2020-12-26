@@ -3,7 +3,7 @@ export const colorLegend = (selection, props) => {
 
   const groups = selection.selectAll("g").data(colorScale.domain());
 
-  const groupsEnter = groups.enter().append("g");
+  const groupsEnter = groups.enter().append("g").attr("class", "tick");
 
   groupsEnter
     .merge(groups)
