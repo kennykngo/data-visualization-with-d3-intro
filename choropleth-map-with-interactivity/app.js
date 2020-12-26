@@ -1,27 +1,14 @@
 import { colorLegend } from "./colorLegend.js";
 import { loadAndProcessData } from "./loadAndProcessData.js";
+import { choroplethMap } from "./choropleth-map.js";
 
 const svg = d3.select("svg");
 
-// manipulate the map by changing the projection
-const projection = d3.geoNaturalEarth1();
-const pathGenerator = d3.geoPath().projection(projection);
-
 // globe path
 const g = svg.append("g");
-
 // map is appended first then the legend is overlayed
+const choroplethMapG = svg.append("g");
 const colorLegendG = svg.append("g").attr("transform", `translate(30, 300)`);
-
-g.append("path")
-  .attr("class", "sphere")
-  .attr("d", pathGenerator({ type: "Sphere" }));
-
-svg.call(
-  d3.zoom().on("zoom", (event) => {
-    g.attr("transform", event.transform);
-  })
-);
 
 const colorScale = d3.scaleOrdinal();
 // can edit to income_grp
@@ -60,14 +47,11 @@ const render = () => {
     selectedColorValue,
   });
 
-  // countries path
-  g.selectAll("path")
-    .data(features)
-    .enter()
-    .append("path")
-    .attr("class", "country")
-    .attr("d", (d) => pathGenerator(d))
-    .attr("fill", (d) => colorScale(colorValue(d)))
-    .append("title")
-    .text((d) => d.properties.name + ": " + colorValue(d));
+  // features
+  choroplethMapG.call(choroplethMap, {
+    features,
+    colorScale,
+    colorValue,
+    selectedColorValue,
+  });
 };
