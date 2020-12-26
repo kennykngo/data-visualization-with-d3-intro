@@ -35,7 +35,8 @@ export const colorLegend = (selection, props) => {
     .attr("opacity", (d) =>
       !selectedColorValue || d === selectedColorValue ? 1 : 0.5
     )
-    .on("click", onClick);
+    // attempting to allow opacity to change back to full IF the current value is selected
+    .on("click", (o, d) => onClick(d === selectedColorValue ? null : d));
 
   groups.exit().remove();
 

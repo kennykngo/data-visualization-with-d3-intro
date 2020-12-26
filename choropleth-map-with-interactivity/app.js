@@ -30,10 +30,12 @@ const colorValue = (d) => d.properties.economy;
 let selectedColorValue;
 let features;
 
-const onClick = (o, d) => {
+const onClick = (d) => {
   selectedColorValue = d;
   render();
 };
+
+// console.log(onClick(null));
 
 loadAndProcessData().then((countries) => {
   features = countries.features;
