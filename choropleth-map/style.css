@@ -14,3 +14,14 @@ html body {
 .country:hover {
   fill: red;
 }
+
+.tick text {
+  font-size: 1em;
+  fill: black;
+  font-family: sans-serif;
+}
+
+.tick circle {
+  stroke: black;
+  stroke-opacity: 0.5;
+}

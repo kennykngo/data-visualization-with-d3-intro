@@ -1,8 +1,4 @@
-// import { select, arc } from "d3";
-// import arc from "d3";
-// import { select } from "https://unpkg.com/d3@6.3.1/dist/d3.min.js?module";
-
-// const topojson = require("")
+import { colorLegend } from "./colorLegend.js";
 import { loadAndProcessData } from "./loadAndProcessData.js";
 
 const svg = d3.select("svg");
@@ -13,6 +9,9 @@ const pathGenerator = d3.geoPath().projection(projection);
 
 // globe path
 const g = svg.append("g");
+
+// map is appended first then the legend is overlayed
+const colorLegendG = svg.append("g").attr("transform", `translate(30, 300)`);
 
 g.append("path")
   .attr("class", "sphere")
@@ -34,6 +33,14 @@ loadAndProcessData().then((countries) => {
     // reverses the array so that the most developed is blue
     .domain(colorScale.domain().sort().reverse())
     .range(d3.schemeSpectral[colorScale.domain().length]);
+
+  colorLegendG.call(colorLegend, {
+    colorScale,
+    circleRadius: 8,
+    spacing: 20,
+    textOffset: 12,
+    backgroundRectWidth: 235,
+  });
 
   // countries path
   g.selectAll("path")
