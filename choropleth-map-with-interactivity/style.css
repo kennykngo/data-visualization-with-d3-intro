@@ -11,6 +11,11 @@ html body {
   stroke-width: 0.05px;
 }
 
+.country.highlighted {
+  stroke: black;
+  stroke-width: 1px;
+}
+
 .tick {
   cursor: pointer;
 }
