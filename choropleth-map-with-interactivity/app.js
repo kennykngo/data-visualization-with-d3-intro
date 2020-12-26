@@ -28,16 +28,22 @@ const colorScale = d3.scaleOrdinal();
 const colorValue = (d) => d.properties.economy;
 
 let selectedColorValue;
+let features;
 
 const onClick = (o, d) => {
   selectedColorValue = d;
-  console.log(selectedColorValue);
+  render();
 };
 
 loadAndProcessData().then((countries) => {
+  features = countries.features;
+  render();
+});
+
+const render = () => {
   // setting the domain to a set of unique values then sorting
   colorScale
-    .domain(countries.features.map(colorValue))
+    .domain(features.map(colorValue))
     // reverses the array so that the most developed is blue
     .domain(colorScale.domain().sort().reverse())
     .range(d3.schemeSpectral[colorScale.domain().length]);
@@ -49,11 +55,12 @@ loadAndProcessData().then((countries) => {
     textOffset: 12,
     backgroundRectWidth: 235,
     onClick,
+    selectedColorValue,
   });
 
   // countries path
   g.selectAll("path")
-    .data(countries.features)
+    .data(features)
     .enter()
     .append("path")
     .attr("class", "country")
@@ -61,4 +68,4 @@ loadAndProcessData().then((countries) => {
     .attr("fill", (d) => colorScale(colorValue(d)))
     .append("title")
     .text((d) => d.properties.name + ": " + colorValue(d));
-});
+};
