@@ -22,7 +22,9 @@ export const colorLegend = (selection, props) => {
     .attr("fill", "white")
     .attr("opacity", 0.5);
 
-  const groups = selection.selectAll(".tick").data(colorScale.domain());
+  const groups = selection
+    .selectAll(".tick")
+    .data(colorScale.domain().reverse());
   const groupsEnter = groups.enter().append("g").attr("class", "tick");
 
   groupsEnter
