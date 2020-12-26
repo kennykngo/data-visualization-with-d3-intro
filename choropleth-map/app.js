@@ -24,6 +24,7 @@ svg.call(
 );
 
 const colorScale = d3.scaleOrdinal();
+// can edit to income_grp
 const colorValue = (d) => d.properties.economy;
 
 loadAndProcessData().then((countries) => {
