@@ -5,6 +5,7 @@ export const colorLegend = (selection, props) => {
     spacing,
     textOffset,
     backgroundRectWidth,
+    onClick,
   } = props;
 
   const backgroundRect = selection.selectAll("rect").data([null]);
@@ -30,7 +31,7 @@ export const colorLegend = (selection, props) => {
   groupsEnter
     .merge(groups)
     .attr("transform", (d, i) => `translate(0, ${i * spacing})`)
-    .on("click", () => console.log("clicked"));
+    .on("click", onClick);
 
   groups.exit().remove();
 

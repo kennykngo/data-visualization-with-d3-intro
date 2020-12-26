@@ -27,6 +27,13 @@ const colorScale = d3.scaleOrdinal();
 // can edit to income_grp
 const colorValue = (d) => d.properties.economy;
 
+let selectedColorValue;
+
+const onClick = (o, d) => {
+  selectedColorValue = d;
+  console.log(selectedColorValue);
+};
+
 loadAndProcessData().then((countries) => {
   // setting the domain to a set of unique values then sorting
   colorScale
@@ -41,6 +48,7 @@ loadAndProcessData().then((countries) => {
     spacing: 20,
     textOffset: 12,
     backgroundRectWidth: 235,
+    onClick,
   });
 
   // countries path
