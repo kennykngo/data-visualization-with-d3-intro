@@ -24,14 +24,16 @@ svg.call(
   })
 );
 
-const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+const colorScale = d3.scaleOrdinal();
 const colorValue = (d) => d.properties.economy;
 
 loadAndProcessData().then((countries) => {
   // setting the domain to a set of unique values then sorting
   colorScale
     .domain(countries.features.map(colorValue))
-    .domain(colorScale.domain().sort());
+    // reverses the array so that the most developed is blue
+    .domain(colorScale.domain().sort().reverse())
+    .range(d3.schemeSpectral[colorScale.domain().length]);
 
   // countries path
   g.selectAll("path")
@@ -42,5 +44,5 @@ loadAndProcessData().then((countries) => {
     .attr("d", (d) => pathGenerator(d))
     .attr("fill", (d) => colorScale(colorValue(d)))
     .append("title")
-    .text((d) => d.properties.name);
+    .text((d) => d.properties.name + ": " + colorValue(d));
 });
