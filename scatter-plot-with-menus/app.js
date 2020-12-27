@@ -1,18 +1,16 @@
+import { dropdownMenu } from "./dropdownMenu.js";
+
 const svg = d3.select("svg");
 
 // append method will append new DOM elements
 // will append the element into the svg element
 
+dropdownMenu(d3.select("body"), {
+  options: ["A", "B", "C"],
+});
+
 const height = +svg.attr("height");
 const width = +svg.attr("width");
-
-// d.mpg = +d.mpg;
-// d.cylinders = +d.cylinders;
-// d.displacement = +d.displacement;
-// d.horsepower = +d.horsepower;
-// d.weight = +d.weight;
-// d.acceleration = +d.acceleration;
-// d.year = +d.year;
 
 const render = (data) => {
   const xValue = (d) => d.horsepower;
