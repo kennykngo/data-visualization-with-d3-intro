@@ -11,14 +11,25 @@ const width = +svg.attr("width");
 
 let data;
 let xColumn;
+let yColumn;
 
 const onXColumnClicked = (column) => {
   xColumn = column;
   render();
 };
 
+const onYColumnClicked = (column) => {
+  yColumn = column;
+  render();
+};
+
 const render = () => {
-  d3.select("#menus").call(dropdownMenu, {
+  d3.select("#x-menu").call(dropdownMenu, {
+    options: data.columns,
+    onOptionClicked: onYColumnClicked,
+  });
+
+  d3.select("#y-menu").call(dropdownMenu, {
     options: data.columns,
     onOptionClicked: onXColumnClicked,
   });
@@ -27,8 +38,8 @@ const render = () => {
   svg.call(scatterPlot, {
     xValue: (d) => d[xColumn],
     xAxisLabel: xColumn,
-    yValue: (d) => d.weight,
-    yAxisLabel: "Weight",
+    yValue: (d) => d[yColumn],
+    yAxisLabel: yColumn,
     circleRadius: 18,
     margin: { top: 60, right: 40, bottom: 88, left: 150 },
     width,
@@ -50,6 +61,7 @@ d3.csv("https://vizhub.com/curran/datasets/auto-mpg.csv").then((loadedData) => {
   });
   // after data is loaded, the first column is assigned to xColumn
   xColumn = data.columns[0];
+  yColumn = data.columns[0];
   // console.log(data);
   render();
 });
