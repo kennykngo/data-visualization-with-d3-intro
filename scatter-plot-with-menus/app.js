@@ -5,14 +5,17 @@ const svg = d3.select("svg");
 // append method will append new DOM elements
 // will append the element into the svg element
 
-dropdownMenu(d3.select("body"), {
-  options: ["A", "B", "C"],
-});
-
 const height = +svg.attr("height");
 const width = +svg.attr("width");
 
 const render = (data) => {
+  d3.select("#menus").call(dropdownMenu, {
+    options: data.columns,
+    onOptionClicked: (column) => {
+      console.log(column);
+    },
+  });
+
   const xValue = (d) => d.horsepower;
   const xAxisLabel = "Horsepower";
 
