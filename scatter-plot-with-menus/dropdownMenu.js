@@ -1,5 +1,5 @@
 export const dropdownMenu = (selection, props) => {
-  const { options, onOptionClicked } = props;
+  const { options, onOptionClicked, selectedOption } = props;
 
   // select will contain one element all the time
   let select = selection.selectAll("select").data([null]);
@@ -17,5 +17,7 @@ export const dropdownMenu = (selection, props) => {
     .append("option")
     .merge(option)
     .attr("value", (d) => d)
+    // property allows "selected" to exist if CB function renders true
+    .property("selected", (d) => d === selectedOption)
     .text((d) => d);
 };

@@ -26,12 +26,14 @@ const onYColumnClicked = (column) => {
 const render = () => {
   d3.select("#x-menu").call(dropdownMenu, {
     options: data.columns,
-    onOptionClicked: onYColumnClicked,
+    onOptionClicked: onXColumnClicked,
+    selectedOption: xColumn,
   });
 
   d3.select("#y-menu").call(dropdownMenu, {
     options: data.columns,
-    onOptionClicked: onXColumnClicked,
+    onOptionClicked: onYColumnClicked,
+    selectedOption: yColumn,
   });
 
   //
@@ -50,7 +52,7 @@ const render = () => {
 
 d3.csv("https://vizhub.com/curran/datasets/auto-mpg.csv").then((loadedData) => {
   data = loadedData;
-  data.forEach((d) => {
+  data.map((d) => {
     d.mpg = +d.mpg;
     d.cylinders = +d.cylinders;
     d.displacement = +d.displacement;
@@ -58,9 +60,13 @@ d3.csv("https://vizhub.com/curran/datasets/auto-mpg.csv").then((loadedData) => {
     d.weight = +d.weight;
     d.acceleration = +d.acceleration;
     d.year = +d.year;
+    delete d.name;
+    delete d.origin;
   });
+
+  console.log(data);
   // after data is loaded, the first column is assigned to xColumn
-  xColumn = data.columns[0];
+  xColumn = data.columns[4];
   yColumn = data.columns[0];
   // console.log(data);
   render();
