@@ -25,9 +25,8 @@ const render = () => {
 
   //
   svg.call(scatterPlot, {
-    title: "Cars: Horsepower vs. Weight",
     xValue: (d) => d[xColumn],
-    xAxisLabel: "Horsepower",
+    xAxisLabel: xColumn,
     yValue: (d) => d.weight,
     yAxisLabel: "Weight",
     circleRadius: 18,
@@ -49,7 +48,8 @@ d3.csv("https://vizhub.com/curran/datasets/auto-mpg.csv").then((loadedData) => {
     d.acceleration = +d.acceleration;
     d.year = +d.year;
   });
-
+  // after data is loaded, the first column is assigned to xColumn
+  xColumn = data.columns[0];
   // console.log(data);
   render();
 });

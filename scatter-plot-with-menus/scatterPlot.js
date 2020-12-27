@@ -1,6 +1,5 @@
 export const scatterPlot = (selection, props) => {
   const {
-    title,
     xValue,
     xAxisLabel,
     yValue,
