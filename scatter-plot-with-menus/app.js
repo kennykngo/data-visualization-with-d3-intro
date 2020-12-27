@@ -8,15 +8,21 @@ const svg = d3.select("svg");
 const height = +svg.attr("height");
 const width = +svg.attr("width");
 
-const render = (data) => {
+let data;
+let xColumn;
+
+const onXColumnClicked = (column) => {
+  xColumn = column;
+  render();
+};
+
+const render = () => {
   d3.select("#menus").call(dropdownMenu, {
     options: data.columns,
-    onOptionClicked: (column) => {
-      console.log(column);
-    },
+    onOptionClicked: onXColumnClicked,
   });
 
-  const xValue = (d) => d.horsepower;
+  const xValue = (d) => d[xColumn];
   const xAxisLabel = "Horsepower";
 
   const yValue = (d) => d.weight;
@@ -101,7 +107,8 @@ const render = (data) => {
   g.append("text").attr("y", -10).text(title).attr("class", "title");
 };
 
-d3.csv("https://vizhub.com/curran/datasets/auto-mpg.csv").then((data) => {
+d3.csv("https://vizhub.com/curran/datasets/auto-mpg.csv").then((loadedData) => {
+  data = loadedData;
   data.forEach((d) => {
     d.mpg = +d.mpg;
     d.cylinders = +d.cylinders;
@@ -113,5 +120,5 @@ d3.csv("https://vizhub.com/curran/datasets/auto-mpg.csv").then((data) => {
   });
 
   // console.log(data);
-  render(data);
+  render();
 });
