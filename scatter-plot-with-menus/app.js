@@ -43,7 +43,7 @@ const render = () => {
     yValue: (d) => d[yColumn],
     yAxisLabel: yColumn,
     circleRadius: 18,
-    margin: { top: 60, right: 40, bottom: 88, left: 150 },
+    margin: { top: 10, right: 40, bottom: 88, left: 150 },
     width,
     height,
     data,
