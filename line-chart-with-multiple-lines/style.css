@@ -32,7 +32,6 @@ text {
 
 .line-path {
   fill: none;
-  stroke: maroon;
   stroke-width: 5;
   stroke-linejoin: round;
 }

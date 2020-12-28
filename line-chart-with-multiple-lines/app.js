@@ -13,8 +13,9 @@ const render = (data) => {
   const yValue = (d) => d.temperature;
   const yAxisLabel = "Temperature";
 
+  const colorValue = (d) => d.city;
+
   const title = "A week in San Francisco";
-  const circleRadius = 6;
   const margin = { top: 60, right: 40, bottom: 88, left: 150 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
@@ -31,6 +32,8 @@ const render = (data) => {
     .domain(d3.extent(data, yValue))
     .range([innerHeight, 0])
     .nice();
+
+  const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
   const g = svg
     .append("g")
@@ -87,12 +90,9 @@ const render = (data) => {
     .y((d) => yScale(yValue(d)))
     .curve(d3.curveBasis);
 
-  const nested = d3
-    .nest()
-    .key((d) => d.city)
-    .entries(data);
+  const nested = d3.nest().key(colorValue).entries(data);
 
-  console.log(nested);
+  colorScale.domain([nested.map((d) => d.key)]);
 
   // chart maker
   g.selectAll(".line-path")
@@ -100,7 +100,8 @@ const render = (data) => {
     .enter()
     .append("path")
     .attr("class", "line-path")
-    .attr("d", (d) => lineGenerator(d.values));
+    .attr("d", (d) => lineGenerator(d.values))
+    .attr("stroke", (d) => colorScale(d.key));
 
   g.append("text").attr("y", -10).text(title).attr("class", "title");
 };
