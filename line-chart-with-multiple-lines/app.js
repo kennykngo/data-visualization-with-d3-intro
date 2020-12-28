@@ -87,13 +87,15 @@ const render = (data) => {
     .y((d) => yScale(yValue(d)))
     .curve(d3.curveBasis);
 
-  console.log(lineGenerator(data));
+  const nested = d3
+    .nest()
+    .key((d) => d.city)
+    .entries(data);
+
+  console.log(nested);
 
   // chart maker
-  g.append("path")
-    .attr("class", "line-path")
-    .attr("d", lineGenerator(data))
-    .attr("stroke", "black");
+  g.append("path").attr("class", "line-path").attr("d", lineGenerator(data));
 
   g.append("text").attr("y", -10).text(title).attr("class", "title");
 };
