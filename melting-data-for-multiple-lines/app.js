@@ -15,7 +15,7 @@ const render = (data) => {
   const yValue = (d) => d.population;
   const yAxisLabel = "Population";
 
-  const colorValue = (d) => d.country;
+  const colorValue = (d) => d.name;
 
   const title = "Population Over Time";
   const margin = { top: 60, right: 220, bottom: 88, left: 105 };
