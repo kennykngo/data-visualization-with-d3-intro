@@ -1,4 +1,4 @@
-// import { colorLegend } from "./colorLegend.js";
+import { sizeLegend } from "./sizeLegend.js";
 import { loadAndProcessData } from "./loadAndProcessData.js";
 
 const svg = d3.select("svg");
@@ -6,7 +6,6 @@ const svg = d3.select("svg");
 // manipulate the map by changing the projection
 const projection = d3.geoNaturalEarth1();
 const pathGenerator = d3.geoPath().projection(projection);
-const radiusScale = d3.scaleSqrt();
 const radiusValue = (d) => d.properties["2018"];
 
 // globe path
@@ -26,9 +25,19 @@ svg.call(
 );
 
 loadAndProcessData().then((countries) => {
-  radiusScale
+  const sizeScale = d3
+    .scaleSqrt()
     .domain([0, d3.max(countries.features, radiusValue)])
     .range([0, 20]);
+
+  svg.append("g").attr("transform", `translate(600, 100)`).call(sizeLegend, {
+    sizeScale,
+    spacing: 80,
+    textOffset: 10,
+    numTicks: 5,
+    circleFill: "rgba(0, 0, 0, 0.5)",
+  });
+
   // countries path
   g.selectAll("path")
     .data(countries.features)
@@ -51,5 +60,5 @@ loadAndProcessData().then((countries) => {
     .attr("class", "country-circle")
     .attr("cx", (d) => d.properties.projected[0])
     .attr("cy", (d) => d.properties.projected[1])
-    .attr("r", (d) => radiusScale(radiusValue(d)));
+    .attr("r", (d) => sizeScale(radiusValue(d)));
 });
