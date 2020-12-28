@@ -1,4 +1,4 @@
-import { colorLegend } from "./colorLegend.js";
+// import { colorLegend } from "./colorLegend.js";
 import { loadAndProcessData } from "./loadAndProcessData.js";
 
 const svg = d3.select("svg");
@@ -6,6 +6,8 @@ const svg = d3.select("svg");
 // manipulate the map by changing the projection
 const projection = d3.geoNaturalEarth1();
 const pathGenerator = d3.geoPath().projection(projection);
+const radiusScale = d3.scaleSqrt();
+const radiusValue = (d) => d.properties["2018"];
 
 // globe path
 const g = svg.append("g");
@@ -23,26 +25,10 @@ svg.call(
   })
 );
 
-const colorScale = d3.scaleOrdinal();
-// can edit to income_grp
-const colorValue = (d) => d.properties.economy;
-
 loadAndProcessData().then((countries) => {
-  // setting the domain to a set of unique values then sorting
-  colorScale
-    .domain(countries.features.map(colorValue))
-    // reverses the array so that the most developed is blue
-    .domain(colorScale.domain().sort().reverse())
-    .range(d3.schemeSpectral[colorScale.domain().length]);
-
-  colorLegendG.call(colorLegend, {
-    colorScale,
-    circleRadius: 8,
-    spacing: 20,
-    textOffset: 12,
-    backgroundRectWidth: 235,
-  });
-
+  radiusScale
+    .domain([0, d3.max(countries.features, radiusValue)])
+    .range([0, 20]);
   // countries path
   g.selectAll("path")
     .data(countries.features)
@@ -50,7 +36,20 @@ loadAndProcessData().then((countries) => {
     .append("path")
     .attr("class", "country")
     .attr("d", (d) => pathGenerator(d))
-    .attr("fill", (d) => colorScale(colorValue(d)))
+    .attr("fill", (d) => (d.properties["2018"] ? "green" : "red"))
     .append("title")
-    .text((d) => d.properties.name + ": " + colorValue(d));
+    .text((d) => d.id);
+
+  countries.featuresWithPopulation.forEach((d) => {
+    d.properties.projected = projection(d3.geoCentroid(d));
+  });
+  // geoCentroid are long and lats of center points
+  g.selectAll("circle")
+    .data(countries.featuresWithPopulation)
+    .enter()
+    .append("circle")
+    .attr("class", "country-circle")
+    .attr("cx", (d) => d.properties.projected[0])
+    .attr("cy", (d) => d.properties.projected[1])
+    .attr("r", (d) => radiusScale(radiusValue(d)));
 });
