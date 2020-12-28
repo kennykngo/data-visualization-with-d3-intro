@@ -28,7 +28,7 @@ export const loadAndProcessData = () =>
     const featuresWithPopulation = countries.features
       .filter((d) => d.properties["2018"])
       .map((d) => {
-        d.properties["2018"] = +d.properties["2018"].replace(/\s/g, "");
+        d.properties["2018"] = +d.properties["2018"].replace(/\s/g, "") * 1000;
         return d;
       });
     return { features: countries.features, featuresWithPopulation };

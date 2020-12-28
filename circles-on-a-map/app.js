@@ -12,7 +12,7 @@ const radiusValue = (d) => d.properties["2018"];
 const g = svg.append("g");
 
 // map is appended first then the legend is overlayed
-const colorLegendG = svg.append("g").attr("transform", `translate(30, 300)`);
+const colorLegendG = svg.append("g").attr("transform", `translate(60, 240)`);
 
 g.append("path")
   .attr("class", "sphere")
@@ -28,15 +28,7 @@ loadAndProcessData().then((countries) => {
   const sizeScale = d3
     .scaleSqrt()
     .domain([0, d3.max(countries.features, radiusValue)])
-    .range([0, 20]);
-
-  svg.append("g").attr("transform", `translate(600, 100)`).call(sizeLegend, {
-    sizeScale,
-    spacing: 80,
-    textOffset: 10,
-    numTicks: 5,
-    circleFill: "rgba(0, 0, 0, 0.5)",
-  });
+    .range([0, 33]);
 
   // countries path
   g.selectAll("path")
@@ -45,7 +37,7 @@ loadAndProcessData().then((countries) => {
     .append("path")
     .attr("class", "country")
     .attr("d", (d) => pathGenerator(d))
-    .attr("fill", (d) => (d.properties["2018"] ? "green" : "red"))
+    .attr("fill", (d) => (d.properties["2018"] ? "#d8d8d8" : "#fec1c1"))
     .append("title")
     .text((d) => d.id);
 
@@ -61,4 +53,15 @@ loadAndProcessData().then((countries) => {
     .attr("cx", (d) => d.properties.projected[0])
     .attr("cy", (d) => d.properties.projected[1])
     .attr("r", (d) => sizeScale(radiusValue(d)));
+
+  g.append("g")
+    .attr("transform", `translate(50, 150)`)
+    .call(sizeLegend, {
+      sizeScale,
+      spacing: 45,
+      textOffset: 10,
+      numTicks: 5,
+      // circleFill: "rgba(0, 0, 0, 0.5)",
+      tickFormat: d3.format(","),
+    });
 });

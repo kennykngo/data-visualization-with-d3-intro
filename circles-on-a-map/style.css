@@ -3,7 +3,7 @@ html body {
 }
 
 .sphere {
-  fill: #4242e4;
+  fill: #eaeaea;
 }
 
 .country {
@@ -16,12 +16,16 @@ html body {
 }
 
 .tick text {
-  font-size: 1em;
-  fill: black;
+  font-size: 1.3em;
+  fill: #444;
   font-family: sans-serif;
 }
 
-.tick circle {
+/* style the .tick circles AND country-circle */
+.tick circle,
+.country-circle {
+  fill: #00d1bf;
+  fill-opacity: 0.6;
   stroke: black;
-  stroke-opacity: 0.5;
+  stroke-opacity: 0.3;
 }
