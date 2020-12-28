@@ -1,7 +1,7 @@
 export const colorLegend = (selection, props) => {
   const { colorScale, circleRadius, spacing, textOffset } = props;
 
-  const groups = selection.selectAll("g").data(colorScale.domain()[0]);
+  const groups = selection.selectAll("g").data(colorScale.domain());
 
   const groupsEnter = groups.enter().append("g").attr("class", "tick");
 

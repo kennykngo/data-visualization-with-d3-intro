@@ -91,10 +91,17 @@ const render = (data) => {
     .y((d) => yScale(yValue(d)))
     .curve(d3.curveBasis);
 
-  const nested = d3.nest().key(colorValue).entries(data);
+  console.log(yValue);
+  const lastYValue = (d) => yValue(d.values[d.values.length - 1]);
+
+  const nested = d3
+    .nest()
+    .key(colorValue)
+    .entries(data)
+    .sort((b, a) => d3.ascending(lastYValue(a), lastYValue(b)));
   console.log(nested);
 
-  colorScale.domain([nested.map((d) => d.key)]);
+  colorScale.domain(nested.map((d) => d.key));
 
   // chart maker
   g.selectAll(".line-path")
@@ -105,7 +112,7 @@ const render = (data) => {
     .attr("d", (d) => lineGenerator(d.values))
     .attr("stroke", (d) => colorScale(d.key));
 
-  g.append("text").attr("y", -10).text(title).attr("class", "title");
+  g.append("text").attr("class", "title").attr("y", -10).text(title);
 
   svg.append("g").attr("transform", `translate(735, 121)`).call(colorLegend, {
     colorScale,
