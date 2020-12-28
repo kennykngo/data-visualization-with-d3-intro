@@ -1,3 +1,4 @@
+import { colorLegend } from "./colorLegend.js";
 const svg = d3.select("svg");
 
 // append method will append new DOM elements
@@ -15,8 +16,8 @@ const render = (data) => {
 
   const colorValue = (d) => d.city;
 
-  const title = "A week in San Francisco";
-  const margin = { top: 60, right: 40, bottom: 88, left: 150 };
+  const title = "A week of Temperature Around the World";
+  const margin = { top: 60, right: 220, bottom: 88, left: 105 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
@@ -91,6 +92,7 @@ const render = (data) => {
     .curve(d3.curveBasis);
 
   const nested = d3.nest().key(colorValue).entries(data);
+  console.log(nested);
 
   colorScale.domain([nested.map((d) => d.key)]);
 
@@ -104,6 +106,13 @@ const render = (data) => {
     .attr("stroke", (d) => colorScale(d.key));
 
   g.append("text").attr("y", -10).text(title).attr("class", "title");
+
+  svg.append("g").attr("transform", `translate(735, 121)`).call(colorLegend, {
+    colorScale,
+    circleRadius: 13,
+    spacing: 30,
+    textOffset: 40,
+  });
 };
 
 d3.csv(
