@@ -12,7 +12,7 @@ html body {
 }
 
 .country:hover {
-  fill: red;
+  fill: #74e1d8;
 }
 
 .tick text {
@@ -28,4 +28,5 @@ html body {
   fill-opacity: 0.6;
   stroke: black;
   stroke-opacity: 0.3;
+  pointer-events: none;
 }

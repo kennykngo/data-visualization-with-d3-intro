@@ -24,6 +24,8 @@ svg.call(
   })
 );
 
+const populationFormat = d3.format(",");
+
 loadAndProcessData().then((countries) => {
   const sizeScale = d3
     .scaleSqrt()
@@ -39,7 +41,14 @@ loadAndProcessData().then((countries) => {
     .attr("d", (d) => pathGenerator(d))
     .attr("fill", (d) => (d.properties["2018"] ? "#d8d8d8" : "#fec1c1"))
     .append("title")
-    .text((d) => d.id);
+    .text((d) =>
+      isNaN(radiusValue(d))
+        ? "Missing Data"
+        : [
+            d.properties["Region, subregion, country or area *"],
+            populationFormat(radiusValue(d)),
+          ].join(": ")
+    );
 
   countries.featuresWithPopulation.forEach((d) => {
     d.properties.projected = projection(d3.geoCentroid(d));
@@ -54,14 +63,12 @@ loadAndProcessData().then((countries) => {
     .attr("cy", (d) => d.properties.projected[1])
     .attr("r", (d) => sizeScale(radiusValue(d)));
 
-  g.append("g")
-    .attr("transform", `translate(50, 150)`)
-    .call(sizeLegend, {
-      sizeScale,
-      spacing: 45,
-      textOffset: 10,
-      numTicks: 5,
-      // circleFill: "rgba(0, 0, 0, 0.5)",
-      tickFormat: d3.format(","),
-    });
+  g.append("g").attr("transform", `translate(50, 150)`).call(sizeLegend, {
+    sizeScale,
+    spacing: 45,
+    textOffset: 10,
+    numTicks: 5,
+    // circleFill: "rgba(0, 0, 0, 0.5)",
+    tickFormat: populationFormat,
+  });
 });
