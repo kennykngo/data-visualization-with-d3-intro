@@ -17,8 +17,8 @@ const render = (data) => {
 
   const colorValue = (d) => d.name;
 
-  const title = "Population Over Time";
-  const margin = { top: 60, right: 220, bottom: 88, left: 105 };
+  const title = "Population Over Time By Region";
+  const margin = { top: 60, right: 280, bottom: 88, left: 105 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
@@ -26,8 +26,7 @@ const render = (data) => {
     .scaleTime()
     // extent returns an array of max and min
     .domain(d3.extent(data, xValue))
-    .range([0, innerWidth])
-    .nice();
+    .range([0, innerWidth]);
 
   const yScale = d3
     .scaleLinear()
@@ -117,9 +116,9 @@ const render = (data) => {
 
   svg.append("g").attr("transform", `translate(735, 121)`).call(colorLegend, {
     colorScale,
-    circleRadius: 13,
-    spacing: 30,
-    textOffset: 40,
+    circleRadius: 10,
+    spacing: 55,
+    textOffset: 15,
   });
 };
 
