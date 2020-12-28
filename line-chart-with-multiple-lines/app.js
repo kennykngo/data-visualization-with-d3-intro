@@ -95,7 +95,12 @@ const render = (data) => {
   console.log(nested);
 
   // chart maker
-  g.append("path").attr("class", "line-path").attr("d", lineGenerator(data));
+  g.selectAll(".line-path")
+    .data(nested)
+    .enter()
+    .append("path")
+    .attr("class", "line-path")
+    .attr("d", (d) => lineGenerator(d.values));
 
   g.append("text").attr("y", -10).text(title).attr("class", "title");
 };
