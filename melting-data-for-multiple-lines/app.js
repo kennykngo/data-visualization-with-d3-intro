@@ -1,4 +1,4 @@
-import { loadAndProcessData } from "./loadingAndProcessData.js";
+import { loadAndProcessData, parseYear } from "./loadingAndProcessData.js";
 import { colorLegend } from "./colorLegend.js";
 const svg = d3.select("svg");
 
@@ -7,6 +7,8 @@ const svg = d3.select("svg");
 
 const height = +svg.attr("height");
 const width = +svg.attr("width");
+
+const selectedYear = 2018;
 
 const render = (data) => {
   const xValue = (d) => d.year;
@@ -111,6 +113,16 @@ const render = (data) => {
     .attr("class", "line-path")
     .attr("d", (d) => lineGenerator(d.values))
     .attr("stroke", (d) => colorScale(d.key));
+
+  const selectedYearDate = parseYear(selectedYear);
+
+  // selectedYear
+  g.append("line")
+    .attr("x1", xScale(selectedYearDate))
+    .attr("x2", xScale(selectedYearDate))
+    .attr("y1", 0)
+    .attr("y2", innerHeight)
+    .attr("stroke", "black");
 
   g.append("text").attr("class", "title").attr("y", -10).text(title);
 

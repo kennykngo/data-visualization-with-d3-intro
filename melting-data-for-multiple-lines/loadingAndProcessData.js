@@ -1,7 +1,7 @@
 const allCaps = (str) => str === str.toUpperCase();
 const isRegion = (name) => allCaps(name) && name !== "WORLD";
 
-const parseYear = d3.timeParse("%Y");
+export const parseYear = d3.timeParse("%Y");
 
 const melt = (unData, minYear, maxYear) => {
   // years returns an array of years from and including 2015 to 2100
