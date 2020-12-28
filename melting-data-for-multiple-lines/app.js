@@ -118,6 +118,7 @@ const render = (data) => {
 
   // selectedYear
   g.append("line")
+    .attr("class", "selected-year-line")
     .attr("x1", xScale(selectedYearDate))
     .attr("x2", xScale(selectedYearDate))
     .attr("y1", 0)
@@ -125,6 +126,19 @@ const render = (data) => {
     .attr("stroke", "black");
 
   g.append("text").attr("class", "title").attr("y", -10).text(title);
+
+  g.append("rect")
+    .attr("width", innerWidth)
+    .attr("height", innerHeight)
+    .attr("fill", "none")
+    .attr("pointer-events", "all")
+    .on("mousemove", () => {
+      const x = d3.mouse(g.node())[0];
+
+      // console.log(xScale.invert(x));
+      const hoveredDate = xScale.invert(x);
+      console.log(hoveredDate.getFullYear());
+    });
 
   svg.append("g").attr("transform", `translate(735, 121)`).call(colorLegend, {
     colorScale,

@@ -33,3 +33,8 @@ text {
   stroke-linecap: round;
   mix-blend-mode: multiply;
 }
+
+.selected-year-line {
+  stroke: black;
+  stroke-width: 5;
+}
