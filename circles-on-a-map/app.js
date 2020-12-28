@@ -63,12 +63,19 @@ loadAndProcessData().then((countries) => {
     .attr("cy", (d) => d.properties.projected[1])
     .attr("r", (d) => sizeScale(radiusValue(d)));
 
-  g.append("g").attr("transform", `translate(50, 150)`).call(sizeLegend, {
-    sizeScale,
-    spacing: 45,
-    textOffset: 10,
-    numTicks: 5,
-    // circleFill: "rgba(0, 0, 0, 0.5)",
-    tickFormat: populationFormat,
-  });
+  g.append("g")
+    .attr("transform", `translate(50, 150)`)
+    .call(sizeLegend, {
+      sizeScale,
+      spacing: 45,
+      textOffset: 10,
+      numTicks: 5,
+      // circleFill: "rgba(0, 0, 0, 0.5)",
+      tickFormat: populationFormat,
+    })
+    .append("text")
+    .attr("class", "legend-title")
+    .text("Population")
+    .attr("y", -50)
+    .attr("x", -30);
 });
