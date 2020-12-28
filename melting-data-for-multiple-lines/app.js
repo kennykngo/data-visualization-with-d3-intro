@@ -11,9 +11,14 @@ const colorLegendG = svg.append("g");
 const height = +svg.attr("height");
 const width = +svg.attr("width");
 
-const selectedYear = 2018;
+let selectedYear = 2018;
 
 let data;
+const setSelectedYear = (year) => {
+  selectedYear = year;
+  // required to update unidrectional data flow
+  render();
+};
 
 const render = () => {
   const yValue = (d) => d.population;
@@ -47,6 +52,7 @@ const render = () => {
     data,
     nested,
     selectedYear,
+    setSelectedYear,
   });
 
   colorLegendG

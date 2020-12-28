@@ -14,6 +14,7 @@ export const lineChart = (selection, props) => {
     data,
     nested,
     selectedYear,
+    setSelectedYear,
   } = props;
 
   const innerWidth = width - margin.left - margin.right;
@@ -32,7 +33,7 @@ export const lineChart = (selection, props) => {
     .nice();
 
   const g = selection.selectAll(".container").data([null]);
-  const gEnter = g.enter().append("g");
+  const gEnter = g.enter().append("g").attr("class", "container");
   gEnter.merge(g).attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   const tickFormat = (number) =>
@@ -141,6 +142,6 @@ export const lineChart = (selection, props) => {
 
       // console.log(xScale.invert(x));
       const hoveredDate = xScale.invert(x);
-      console.log(hoveredDate.getFullYear());
+      setSelectedYear(hoveredDate.getFullYear());
     });
 };
